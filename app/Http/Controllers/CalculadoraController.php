@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 class CalculadoraController extends Controller
 {
+    public function __construct(Calculadora $calculadora){
+        $this->calculadora = $calculadora;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +17,8 @@ class CalculadoraController extends Controller
      */
     public function index()
     {
-        //
+        $calculadoras = $this->calculadora->orderBy('id', 'desc')->get();
+        return response()->json($calculadoras, 200);
     }
 
     /**
@@ -35,7 +39,16 @@ class CalculadoraController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate($this->calculadora->rules());
+
+        $calculadora = $this->calculadora->create([
+            'operator' => $request->operator,
+            'valor_1' => $request->valor_1,
+            'valor_2' => $request->valor_2,
+            'valor_total' => $request->valor_total,
+        ]);
+
+        return response()->json($calculadora, 201);
     }
 
     /**
@@ -86,54 +99,72 @@ class CalculadoraController extends Controller
     public function sum(Request $request)
     {
         //
-        $value1 = (float)$request->value1;
-        $value2 = (float)$request->value2;
-        $total = $value1 + $value2;
-        //$total = $value1->sum() + $value2->sum();
-        return [
-            'operator'=> 'soma',
-            'valor1' => $value1,
-            'valor2' => $value2,
-            'total' => $total
-        ];
+        $request->validate($this->calculadora->rules());
+
+        $operator = '+';
+        $valor_1 = (double)$request->valor_1;
+        $valor_2 = (double)$request->valor_2;
+        $valor_total = $valor_1 + $valor_2;
+        
+        $calculadora = $this->calculadora->create([
+            'operator' => $operator,
+            'valor_1' => $valor_1,
+            'valor_2' => $valor_2,
+            'valor_total' => $valor_total,
+        ]);
+
+        return response()->json($calculadora, 201);
     }
 
     public function sub(Request $request){
-        $value1 = (float)$request->value1;
-        $value2 = (float)$request->value2;
-        $total = $value1 - $value2;
-        //$total = $value1->sum() + $value2->sum();
-        return [
-            'operator'=> 'subtracao',
-            'valor1' => $value1,
-            'valor2' => $value2,
-            'total' => $total
-        ];
+        
+        $request->validate($this->calculadora->rules());
+
+        $operator = '-';
+        $valor_1 = (double)$request->valor_1;
+        $valor_2 = (double)$request->valor_2;
+        $valor_total = $valor_1 - $valor_2;
+        
+        $calculadora = $this->calculadora->create([
+            'operator' => $operator,
+            'valor_1' => $valor_1,
+            'valor_2' => $valor_2,
+            'valor_total' => $valor_total,
+        ]);
+        return response()->json($calculadora, 201);
     }
 
     public function div(Request $request){
-        $value1 = (float)$request->value1;
-        $value2 = (float)$request->value2;
-        $total = $value1 / $value2;
-        //$total = $value1->sum() + $value2->sum();
-        return [
-            'operator'=> 'divisao',
-            'valor1' => $value1,
-            'valor2' => $value2,
-            'total' => $total
-        ];
+        $request->validate($this->calculadora->rules());
+
+        $operator = '/';
+        $valor_1 = (double)$request->valor_1;
+        $valor_2 = (double)$request->valor_2;
+        $valor_total = $valor_1 / $valor_2;
+        
+        $calculadora = $this->calculadora->create([
+            'operator' => $operator,
+            'valor_1' => $valor_1,
+            'valor_2' => $valor_2,
+            'valor_total' => $valor_total,
+        ]);
+        return response()->json($calculadora, 201);
     }
 
     public function mult(Request $request){
-        $value1 = (float)$request->value1;
-        $value2 = (float)$request->value2;
-        $total = $value1 * $value2;
-        //$total = $value1->sum() + $value2->sum();
-        return [
-            'operator'=> 'multiplicacao',
-            'valor1' => $value1,
-            'valor2' => $value2,
-            'total' => $total
-        ];
+        $request->validate($this->calculadora->rules());
+
+        $operator = '*';
+        $valor_1 = (double)$request->valor_1;
+        $valor_2 = (double)$request->valor_2;
+        $valor_total = $valor_1 * $valor_2;
+        
+        $calculadora = $this->calculadora->create([
+            'operator' => $operator,
+            'valor_1' => $valor_1,
+            'valor_2' => $valor_2,
+            'valor_total' => $valor_total,
+        ]);
+        return response()->json($calculadora, 201);
     }
 }

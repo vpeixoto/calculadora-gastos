@@ -13,12 +13,12 @@ class CreateCalculadorasTable extends Migration
      */
     public function up()
     {
-        Schema::create('calculadora_history', function (Blueprint $table) {
+        Schema::create('calculadoras', function (Blueprint $table) {
             $table->id();
             $table->string('operator', 30);
-            $table->float('valor_1', 8,2);
-            $table->float('valor_2', 8,2);
-            $table->float('valor_total', 8,2);
+            $table->double('valor_1', 8,2);
+            $table->double('valor_2', 8,2);
+            $table->double('valor_total', 8,2);
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateCalculadorasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('calculadora_history');
+        Schema::dropIfExists('calculadoras');
     }
 }
